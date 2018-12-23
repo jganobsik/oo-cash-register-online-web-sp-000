@@ -1,9 +1,7 @@
 
 class CashRegister
-  attr_accessor :total, :discount, :items, :most_recent_add, :most_recent_quantity, 
-  latest_item = []
-  latest_total = 0
-  latest_quantity = 1
+  attr_accessor :total, :discount, :items, :most_recent_add, :most_recent_quantity, :most_recent_item
+ 
   def initialize(discount = 0)
   @discount = discount  
   @total = 0 
@@ -17,8 +15,8 @@ class CashRegister
   def add_item(item, price, quantity = 1)
     @total += price * quantity
     @most_recent_add = price * quantity
-    latest_item = item
-    latest_quantity = quantity
+    @most_recent_item = item
+    @most_recent_quantity = quantity
     if quantity == 1 
       @items << item
     else 
@@ -44,11 +42,12 @@ end
   end
   
   def void_last_transaction
+    latest_item = @most_recent_item
     @total = @total - @most_recent_add
-    if latest_quantity = 1
+    if @most_recent_quantity = 1
       items.delete(latest_item)
     else
-      latest_quantity.times do 
+      @most_recent_quantity.times do 
         items.delete(latest_item)
       end
     end
